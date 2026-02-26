@@ -235,17 +235,19 @@ body {
 	position: relative;
 	overflow: hidden;
 	isolation: isolate;
+	border-color: rgba(171, 196, 255, 0.26);
 }
 
 .btn-top::before {
 	content: "";
 	position: absolute;
-	inset: -1px;
+	inset: -2px;
 	border-radius: inherit;
-	padding: 1px;
-	background: conic-gradient(from 0deg, rgba(155, 184, 255, 0) 0deg, rgba(170, 198, 255, 0.7) 90deg, rgba(143, 122, 255, 0.68) 180deg, rgba(170, 198, 255, 0.65) 280deg, rgba(155, 184, 255, 0) 360deg);
-	filter: blur(1.5px);
-	animation: borderOrbit 8.5s linear infinite;
+	padding: 1.2px;
+	background: conic-gradient(from 0deg, rgba(160, 188, 255, 0) 0deg, rgba(160, 188, 255, 0) 305deg, rgba(189, 214, 255, 0.88) 332deg, rgba(154, 132, 255, 0.82) 346deg, rgba(160, 188, 255, 0) 360deg);
+	filter: blur(3px);
+	opacity: 0.78;
+	animation: borderSweep 5.2s linear infinite;
 	pointer-events: none;
 	z-index: 0;
 	-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -254,12 +256,23 @@ body {
 	mask-composite: exclude;
 }
 
+.btn-top::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	border: 1px solid rgba(191, 213, 255, 0.18);
+	box-shadow: inset 0 1px 0 rgba(235, 244, 255, 0.11);
+	pointer-events: none;
+	z-index: 0;
+}
+
 .btn-top > * {
 	position: relative;
 	z-index: 1;
 }
 
-@keyframes borderOrbit {
+@keyframes borderSweep {
 	to {
 		transform: rotate(1turn);
 	}
