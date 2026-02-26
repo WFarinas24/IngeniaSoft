@@ -1,5 +1,6 @@
 (() => {
 	const introSection = document.querySelector(".intro-section");
+	const pageBg = document.querySelector(".page-bg");
 	const header = document.querySelector(".topbar");
 	const navLinks = Array.from(document.querySelectorAll(".nav-pill .nav-link[href^='#']"));
 	const sectionLinks = navLinks
@@ -12,6 +13,46 @@
 		.filter(Boolean);
 
 	const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+	const spawnRareComet = () => {
+		if (!pageBg || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+			return;
+		}
+
+		const comet = document.createElement("span");
+		comet.className = "comet";
+
+		const startX = -8 + Math.random() * 82;
+		const startY = 2 + Math.random() * 42;
+		const travelX = 260 + Math.random() * 260;
+		const travelY = 120 + Math.random() * 170;
+		const angle = (Math.atan2(travelY, travelX) * 180) / Math.PI;
+		const duration = 1.15 + Math.random() * 0.95;
+		const width = 120 + Math.random() * 100;
+
+		comet.style.left = `${startX}%`;
+		comet.style.top = `${startY}%`;
+		comet.style.setProperty("--comet-angle", `${angle}deg`);
+		comet.style.setProperty("--comet-x", `${travelX}px`);
+		comet.style.setProperty("--comet-y", `${travelY}px`);
+		comet.style.setProperty("--comet-duration", `${duration}s`);
+		comet.style.width = `${width}px`;
+
+		pageBg.appendChild(comet);
+
+		window.setTimeout(() => {
+			comet.remove();
+		}, (duration + 0.3) * 1000);
+	};
+
+	const scheduleComet = () => {
+		const nextMs = 500 + Math.random() * 1500;
+
+		window.setTimeout(() => {
+			spawnRareComet();
+			scheduleComet();
+		}, nextMs);
+	};
 
 	const setActiveLink = (activeLink) => {
 		navLinks.forEach((link) => {
@@ -80,4 +121,5 @@
 	window.addEventListener("resize", onScrollOrResize);
 	updateIntroFade();
 	updateActiveSection();
+	scheduleComet();
 })();
