@@ -144,6 +144,13 @@ body {
 	box-shadow: inset 0 1px 0 rgba(220, 232, 255, 0.05);
 }
 
+#por-que,
+#servicios,
+#proceso,
+#contacto {
+	scroll-margin-top: 8.5rem;
+}
+
 .logo {
 	display: inline-flex;
 	width: 56px;
@@ -225,6 +232,37 @@ body {
 
 .btn-top {
 	padding: 0.82rem 1.6rem;
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+}
+
+.btn-top::before {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	border-radius: inherit;
+	padding: 1px;
+	background: conic-gradient(from 0deg, rgba(155, 184, 255, 0) 0deg, rgba(170, 198, 255, 0.7) 90deg, rgba(143, 122, 255, 0.68) 180deg, rgba(170, 198, 255, 0.65) 280deg, rgba(155, 184, 255, 0) 360deg);
+	filter: blur(1.5px);
+	animation: borderOrbit 8.5s linear infinite;
+	pointer-events: none;
+	z-index: 0;
+	-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask-composite: exclude;
+}
+
+.btn-top > * {
+	position: relative;
+	z-index: 1;
+}
+
+@keyframes borderOrbit {
+	to {
+		transform: rotate(1turn);
+	}
 }
 
 .hero {
@@ -1211,6 +1249,13 @@ body {
 	.intro-section {
 		min-height: min(100dvh, 920px);
 		padding-top: 1.4rem;
+	}
+
+	#por-que,
+	#servicios,
+	#proceso,
+	#contacto {
+		scroll-margin-top: 13.6rem;
 	}
 
 	.topbar {

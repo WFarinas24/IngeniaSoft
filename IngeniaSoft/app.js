@@ -1,13 +1,55 @@
 (() => {
 	const introSection = document.querySelector(".intro-section");
+	const header = document.querySelector(".topbar");
+	const navLinks = Array.from(document.querySelectorAll(".nav-pill .nav-link[href^='#']"));
+	const sectionLinks = navLinks
+		.map((link) => {
+			const targetId = link.getAttribute("href")?.slice(1);
+			const section = targetId ? document.getElementById(targetId) : null;
 
-	if (!introSection) {
-		return;
-	}
+			return section ? { link, section } : null;
+		})
+		.filter(Boolean);
 
 	const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
+	const setActiveLink = (activeLink) => {
+		navLinks.forEach((link) => {
+			link.classList.toggle("active", link === activeLink);
+		});
+	};
+
+	const updateActiveSection = () => {
+		if (!sectionLinks.length) {
+			return;
+		}
+
+		const headerOffset = (header?.offsetHeight ?? 88) + 20;
+		const probeLine = headerOffset + window.innerHeight * 0.18;
+
+		let active = sectionLinks[0].link;
+
+		for (const item of sectionLinks) {
+			const rect = item.section.getBoundingClientRect();
+
+			if (rect.top <= probeLine && rect.bottom > probeLine) {
+				active = item.link;
+				break;
+			}
+
+			if (rect.top <= probeLine) {
+				active = item.link;
+			}
+		}
+
+		setActiveLink(active);
+	};
+
 	const updateIntroFade = () => {
+		if (!introSection) {
+			return;
+		}
+
 		const rect = introSection.getBoundingClientRect();
 		const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 		const fadeStart = 0;
@@ -29,6 +71,7 @@
 		isTicking = true;
 		window.requestAnimationFrame(() => {
 			updateIntroFade();
+			updateActiveSection();
 			isTicking = false;
 		});
 	};
@@ -36,4 +79,5 @@
 	window.addEventListener("scroll", onScrollOrResize, { passive: true });
 	window.addEventListener("resize", onScrollOrResize);
 	updateIntroFade();
+	updateActiveSection();
 })();
